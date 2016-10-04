@@ -11,7 +11,7 @@ class ClusteringSetting(object):
         stop_variance (float): the minimum distance between centroids
           computed during two consecutive iterations. If the loop_variance
           is smaller then this value, then the algorithm stops.
-        distance_function (function): function to assign a cluster to a traveler
+        distance_function (function): function to assign a cluster to an object
     """
     def __init__(self, number_of_clusters, max_iterations,
                  stop_variance, distance_function):

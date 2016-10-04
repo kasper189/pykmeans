@@ -2,11 +2,11 @@
 """
 
 def compute_cluster(data, settings, init_function,
-                    centroid_matcher, update_function):
+                    centroid_matcher, update_function, merge_function):
     """Computes k clusters applying k-means algorithm.
 
     Args:
-        data (rdd): the RDD containing the travelers.
+        data (rdd): the RDD containing the objects.
         settings (ClusteringSetting): object containing algorithm settings
         init_function (function): initialization function to determine the
             initial centroids.
@@ -14,6 +14,7 @@ def compute_cluster(data, settings, init_function,
             nearest cluster
         update_function (function): function to rebuild a centroid based on
             objects belonging to it.
+        merge_function (function): function merge two lists.
 
     Returns:
         labeled_data (rdd): the rdd containing a map <cluster_id, object>.
@@ -33,8 +34,8 @@ def compute_cluster(data, settings, init_function,
         computed_centroids = (
             labeled_data.aggregateByKey(
                 [],
-                (lambda a, b: merge_intermediate_travelers(a, b)),
-                (lambda a, b: merge_intermediate_travelers(a, b)))
+                (lambda a, b: merge_function(a, b)),
+                (lambda a, b: merge_function(a, b)))
             .mapValues(
                 lambda items: update_function(items))
             .collectAsMap()
@@ -62,7 +63,7 @@ def _compare_centroids(number_of_clusters, last_centroids,
         last_centroids (rdd): the RDD containing the last iteration centroids.
         previous_centroids (rdd): the RDD containing the previous
             iteration centroids.
-        distance_function (function): function to assign a cluster to a traveler
+        distance_function (function): function to assign a cluster to an item.
 
     Returns:
         distance (float): the distance between the centroids

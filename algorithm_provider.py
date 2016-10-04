@@ -26,10 +26,10 @@ def match_object_to_centroid(item, centroids, compute_distance):
         centroids (List(object)): the set of centroids to match to the item
         compute_distance (function): the function used to compute the distance
     Returns:
-        (str): The Id of the centroid which is closest to the traveler
+        (str): The Id of the centroid which is closest to the item
     """
 
-    distance_list = [(compute_distance(traveler, centroid),
+    distance_list = [(compute_distance(item, centroid),
                       centroid.unique_id)
                      for centroid in centroids]
     distance_list.sort(key=lambda tup: tup[0])
