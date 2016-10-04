@@ -1,0 +1,5 @@
+findspark==1.1.0
+pytest==2.9.2
+pysparkling==0.3.22
+cloudpickle==0.2.1
+
